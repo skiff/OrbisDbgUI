@@ -14,6 +14,9 @@ User Interface implementing the OrbisDbg Debugger for Playstation 4
 2. Launch and attach to game process
 3. Debug
 
+# Screenshot
+![UI](https://i.imgur.com/jrmmfqB.png)
+
 # Components
 [Zydis by Zyantific](https://github.com/zyantific/zydis)<br>
 [HexEditor by jariq](https://github.com/Pkcs11Admin/Be.HexEditor)
