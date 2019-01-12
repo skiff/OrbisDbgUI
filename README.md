@@ -2,7 +2,7 @@
 User Interface implementing the OrbisDbg Debugger for Playstation 4
 
 # Features
-- Continue debugger already attached processes
+- Continue debugging already attached processes
 - Memory Editor
 - Register Editor
 - Disassembly View
