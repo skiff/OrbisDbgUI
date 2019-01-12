@@ -233,6 +233,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "MemoryForm";
             this.Text = "Memory Editor Window";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MemoryForm_FormClosed);
             this.Resize += new System.EventHandler(this.MemoryForm_Resize);
             this.MemoryViewContextStrip.ResumeLayout(false);
             this.MemoryToolStrip.ResumeLayout(false);

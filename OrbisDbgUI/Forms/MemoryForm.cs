@@ -31,6 +31,10 @@ namespace OrbisDbgUI {
             MemoryViewHexBox.ByteProvider = new DynamicFileByteProvider(stream);
         }
 
+        private void MemoryForm_FormClosed(object sender, FormClosedEventArgs e) {
+            mainForm.memoryForm = null;
+        }
+
         public void UpdateMemoryView(ulong address, uint size, byte[] memory) {
             this.address = address;
             this.offset = 0;
