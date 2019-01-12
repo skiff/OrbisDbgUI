@@ -15,7 +15,7 @@ User Interface implementing the OrbisDbg Debugger for Playstation 4
 3. Debug
 
 # Components
-[Zydis by Zyantific](https://github.com/zyantific/zydis)
+[Zydis by Zyantific](https://github.com/zyantific/zydis)<br>
 [HexEditor by jariq](https://github.com/Pkcs11Admin/Be.HexEditor)
 
 # Credits
