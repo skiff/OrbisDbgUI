@@ -216,20 +216,16 @@ namespace OrbisDbgUI {
                     }
                 }
 
-                OrbisDbg.registers regs = OrbisDbg.GetRegisters();
+                /*OrbisDbg.registers regs = OrbisDbg.GetRegisters();
 
                 if (registersForm != null)
                     registersForm.UpdateRegisterWindow(regs);
 
-                if(memoryForm != null) {
-                    byte[] mem = OrbisDbg.GetMemory(regs.r_rip, 0x1000);
-                    memoryForm.UpdateMemoryView(regs.r_rip, 0x1000, mem);
-                }
+                if(memoryForm != null)
+                    memoryForm.UpdateMemoryView(regs.r_rip, 0x1000, OrbisDbg.GetMemory(regs.r_rip, 0x1000));
 
-                if(disassemblyForm != null) {
-                    byte[] memory = OrbisDbg.GetMemory(regs.r_rip, 0x100);
-                    disassemblyForm.UpdateDisassembly(regs.r_rip, memory, disassemblyForm.IsShowingBytes());
-                }
+                if(disassemblyForm != null)
+                    disassemblyForm.UpdateDisassembly(regs.r_rip, OrbisDbg.GetMemory(regs.r_rip, 0x100), disassemblyForm.IsShowingBytes());*/
 
                 OrbisDbg.SetSingleStep();
             }
@@ -238,6 +234,9 @@ namespace OrbisDbgUI {
         private void StepProcess() {
             if (OrbisDbg.IsProcessPaused()) {
                 OrbisDbg.SingleStep();
+
+                if (registersForm != null)
+                    registersForm.UpdateRegisterWindow(OrbisDbg.GetRegisters());
             }
         }
 
@@ -383,53 +382,51 @@ namespace OrbisDbgUI {
         private void disassemblyWindowToolStripMenuItem_Click(object sender, EventArgs e) => OpenDisassemblyWindow();
 
         private void UpdateFormsOnPaused() {
-            bool isPaused = OrbisDbg.IsProcessPaused();
-            if (isPaused) {
-                OrbisDbg.registers regs = OrbisDbg.GetRegisters();
+            OrbisDbg.registers regs = OrbisDbg.GetRegisters();
 
-                if (!bUpdatedOnPause) {
-                    bool isBreakpoint = OrbisDbg.Ext.ReadByte(regs.r_rip - 1) == 0xCC;
-                    ulong breakAddress = isBreakpoint ? regs.r_rip - 1 : regs.r_rip;
+            if (!bUpdatedOnPause) {
+                bool isBreakpoint = OrbisDbg.Ext.ReadByte(regs.r_rip - 1) == 0xCC;
+                ulong breakAddress = isBreakpoint ? regs.r_rip - 1 : regs.r_rip;
 
-                    if (isBreakpoint) {
-                        for (int i = 0; i < breakpoints.Count; i++) {
-                            if (breakpoints[i].address == breakAddress) {
-                                OrbisDbg.Ext.WriteByte(breakAddress, breakpoints[i].instruction);
-                                break;
-                            }
+                if (isBreakpoint) {
+                    for (int i = 0; i < breakpoints.Count; i++) {
+                        if (breakpoints[i].address == breakAddress) {
+                            OrbisDbg.Ext.WriteByte(breakAddress, breakpoints[i].instruction);
+                            break;
                         }
-
-                        regs.r_rip -= 1;
-                        OrbisDbg.SetRegisters(regs);
                     }
 
-                    if (memoryForm != null) {
-                        byte[] mem = OrbisDbg.GetMemory(regs.r_rip, 0x1000);
-                        memoryForm.UpdateMemoryView(regs.r_rip, 0x1000, mem);
-                    }
+                    regs.r_rip -= 1;
+                    OrbisDbg.SetRegisters(regs);
                 }
+           
+                if (memoryForm != null) 
+                    memoryForm.UpdateMemoryView(regs.r_rip, 0x1000, OrbisDbg.GetMemory(regs.r_rip, 0x1000));
 
                 if (registersForm != null)
                     registersForm.UpdateRegisterWindow(regs);
-
-                if(disassemblyForm != null && regs.r_rip != PreviousRip) {
-                    if (PreviousRip != 0 && regs.r_rip > PreviousRip && regs.r_rip - PreviousRip < 0xD0) {
-                        disassemblyForm.UpdateDisassemblyKeepMemory(regs.r_rip);
-                    }
-                    else {
-                        PreviousRip = regs.r_rip;
-                        byte[] memory = OrbisDbg.GetMemory(regs.r_rip, 0x100);
-                        disassemblyForm.UpdateDisassembly(regs.r_rip, memory, disassemblyForm.IsShowingBytes());
-                    }
-                }
-
-                bUpdatedOnPause = true;
             }
+
+            if (disassemblyForm != null && regs.r_rip != PreviousRip) {
+                if (PreviousRip != 0 && regs.r_rip > PreviousRip && regs.r_rip - PreviousRip < 0xD0) {
+                    disassemblyForm.UpdateDisassemblyKeepMemory(regs.r_rip);
+                }
+                else {
+                    PreviousRip = regs.r_rip;
+                    byte[] memory = OrbisDbg.GetMemory(regs.r_rip, 0x100);
+                    disassemblyForm.UpdateDisassembly(regs.r_rip, memory, disassemblyForm.IsShowingBytes());
+                }
+            }
+
+            bUpdatedOnPause = true;
         }
 
         private static void CheckForPausedStateThread(MainForm main) {
             while (true) {
-                main.Invoke((MethodInvoker)delegate () { main.UpdateFormsOnPaused(); });
+                bool isPaused = OrbisDbg.IsProcessPaused();
+                if (isPaused) {
+                    main.Invoke((MethodInvoker)delegate () { main.UpdateFormsOnPaused(); });
+                }
                 Thread.Sleep(500);
             }
         }
