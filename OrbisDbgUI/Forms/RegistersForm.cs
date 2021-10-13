@@ -20,6 +20,9 @@ namespace OrbisDbgUI {
             RAXRegisterValue.ReadOnly = false;
             RAXRegisterValue.ForeColor = (RAXRegisterValue.Text.Equals("0x" + regs.r_rax.ToString("X16"))) ? Color.Black : Color.Red;
             RAXRegisterValue.Text = String.Format("0x{0}", regs.r_rax.ToString("X16"));
+            RBXRegisterValue.ReadOnly = false;
+            RBXRegisterValue.ForeColor = (RBXRegisterValue.Text.Equals("0x" + regs.r_rbx.ToString("X16"))) ? Color.Black : Color.Red;
+            RBXRegisterValue.Text = String.Format("0x{0}", regs.r_rbx.ToString("X16"));
             RDIRegisterValue.ReadOnly = false;
             RDIRegisterValue.ForeColor = (RDIRegisterValue.Text.Equals("0x" + regs.r_rdi.ToString("X16"))) ? Color.Black : Color.Red;
             RDIRegisterValue.Text = String.Format("0x{0}", regs.r_rdi.ToString("X16"));
@@ -80,6 +83,9 @@ namespace OrbisDbgUI {
             RAXRegisterValue.ReadOnly = false;
             RAXRegisterValue.ForeColor = Color.Black;
             RAXRegisterValue.Text = "0x0000000000000000";
+            RBXRegisterValue.ReadOnly = false;
+            RBXRegisterValue.ForeColor = Color.Black;
+            RBXRegisterValue.Text = "0x0000000000000000";
             RDIRegisterValue.ReadOnly = false;
             RDIRegisterValue.ForeColor = Color.Black;
             RDIRegisterValue.Text = "0x0000000000000000";
@@ -139,6 +145,7 @@ namespace OrbisDbgUI {
         public OrbisDbg.registers GetRegisters() {
             OrbisDbg.registers result = OrbisDbg.GetRegisters();
             result.r_rax = Convert.ToUInt64(RAXRegisterValue.Text, 16);
+            result.r_rbx = Convert.ToUInt64(RBXRegisterValue.Text, 16);
             result.r_rdi = Convert.ToUInt64(RDIRegisterValue.Text, 16);
             result.r_rsi = Convert.ToUInt64(RSIRegisterValue.Text, 16);
             result.r_rdx = Convert.ToUInt64(RDXRegisterValue.Text, 16);
