@@ -73,7 +73,9 @@ namespace OrbisDbgUI {
             DynamicFileByteProvider dynamicFileByteProvider = MemoryViewHexBox.ByteProvider as DynamicFileByteProvider;
             dynamicFileByteProvider.ApplyChanges();
 
-            File.WriteAllBytes(@"OrbisDbg\Memory.bin", MemoryData);
+            // Add M-D-Y H-M-S for each memory dump that way we can keep saving and not have to worry about overwriting each dump
+            DateTime nowdate = DateTime.Now;
+            File.WriteAllBytes($"OrbisDbg\\{nowdate.Month}-{nowdate.Day}-{nowdate.Year}-{nowdate.Hour}-{nowdate.Minute}-{nowdate.Second}-Memory.bin", MemoryData);
         }
 
         private void MemoryViewHexBox_Click(object sender, EventArgs e) {
@@ -131,10 +133,12 @@ namespace OrbisDbgUI {
 
         private void copySelectedToolStripMenuItem_Click(object sender, EventArgs e) {
             MemoryViewHexBox.CopyHex();
+            Clipboard.SetText(Clipboard.GetText());
         }
 
         private void MemoryViewHexBox_Copied(object sender, EventArgs e) {
             MemoryViewHexBox.CopyHex();
+            Clipboard.SetText(Clipboard.GetText());
         }
 
         private void MemoryForm_Resize(object sender, EventArgs e) {
