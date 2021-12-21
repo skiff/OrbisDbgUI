@@ -36,6 +36,9 @@
             this.FullBytesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.copySelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyAsUInt64ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyAsUInt32ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyAsUInt16ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MemoryToolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.AddressToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
@@ -78,9 +81,12 @@
             this.EightBytesToolStripMenuItem,
             this.FullBytesToolStripMenuItem,
             this.toolStripSeparator3,
-            this.copySelectedToolStripMenuItem});
+            this.copySelectedToolStripMenuItem,
+            this.copyAsUInt64ToolStripMenuItem,
+            this.copyAsUInt32ToolStripMenuItem,
+            this.copyAsUInt16ToolStripMenuItem});
             this.MemoryViewContextStrip.Name = "MemoryViewContextStrip";
-            this.MemoryViewContextStrip.Size = new System.Drawing.Size(167, 192);
+            this.MemoryViewContextStrip.Size = new System.Drawing.Size(167, 258);
             // 
             // followPointerToolStripMenuItem
             // 
@@ -147,6 +153,27 @@
             this.copySelectedToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.copySelectedToolStripMenuItem.Text = "Copy Selected";
             this.copySelectedToolStripMenuItem.Click += new System.EventHandler(this.copySelectedToolStripMenuItem_Click);
+            // 
+            // copyAsUInt64ToolStripMenuItem
+            // 
+            this.copyAsUInt64ToolStripMenuItem.Name = "copyAsUInt64ToolStripMenuItem";
+            this.copyAsUInt64ToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.copyAsUInt64ToolStripMenuItem.Text = "Copy As UInt64";
+            this.copyAsUInt64ToolStripMenuItem.Click += new System.EventHandler(this.copyAsUInt64ToolStripMenuItem_Click);
+            // 
+            // copyAsUInt32ToolStripMenuItem
+            // 
+            this.copyAsUInt32ToolStripMenuItem.Name = "copyAsUInt32ToolStripMenuItem";
+            this.copyAsUInt32ToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.copyAsUInt32ToolStripMenuItem.Text = "Copy As UInt32";
+            this.copyAsUInt32ToolStripMenuItem.Click += new System.EventHandler(this.copyAsUInt32ToolStripMenuItem_Click);
+            // 
+            // copyAsUInt16ToolStripMenuItem
+            // 
+            this.copyAsUInt16ToolStripMenuItem.Name = "copyAsUInt16ToolStripMenuItem";
+            this.copyAsUInt16ToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.copyAsUInt16ToolStripMenuItem.Text = "Copy As UInt16";
+            this.copyAsUInt16ToolStripMenuItem.Click += new System.EventHandler(this.copyAsUInt16ToolStripMenuItem_Click);
             // 
             // MemoryToolStrip
             // 
@@ -266,5 +293,8 @@
         private System.Windows.Forms.ToolStripMenuItem FullBytesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem copySelectedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyAsUInt64ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyAsUInt32ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyAsUInt16ToolStripMenuItem;
     }
 }

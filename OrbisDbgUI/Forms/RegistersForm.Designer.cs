@@ -127,7 +127,7 @@
             this.RAXRegisterValue.Size = new System.Drawing.Size(153, 15);
             this.RAXRegisterValue.TabIndex = 2;
             this.RAXRegisterValue.Text = "0x0000000000000000";
-            this.RAXRegisterValue.TextChanged += new System.EventHandler(this.RAXRegisterValue_TextChanged);
+            // this.RAXRegisterValue.TextChanged += new System.EventHandler(this.RAXRegisterValue_TextChanged);
             this.RAXRegisterValue.DoubleClick += new System.EventHandler(this.Register_DoubleClick);
             this.RAXRegisterValue.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Register_KeyDown);
             this.RAXRegisterValue.Leave += new System.EventHandler(this.Register_Leave);
@@ -593,7 +593,7 @@
             this.RBXRegisterValue.Size = new System.Drawing.Size(153, 15);
             this.RBXRegisterValue.TabIndex = 40;
             this.RBXRegisterValue.Text = "0x0000000000000000";
-            this.RBXRegisterValue.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // this.RBXRegisterValue.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // RBXRegisterLabel
             // 
@@ -604,7 +604,7 @@
             this.RBXRegisterLabel.Size = new System.Drawing.Size(40, 17);
             this.RBXRegisterLabel.TabIndex = 39;
             this.RBXRegisterLabel.Text = "RBX:";
-            this.RBXRegisterLabel.Click += new System.EventHandler(this.label1_Click);
+            // this.RBXRegisterLabel.Click += new System.EventHandler(this.label1_Click);
             // 
             // RegistersForm
             // 

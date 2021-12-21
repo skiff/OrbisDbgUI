@@ -3,6 +3,8 @@ using System.IO;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using Be.Windows.Forms;
+using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace OrbisDbgUI {
     public partial class MemoryForm : Form {
@@ -48,7 +50,10 @@ namespace OrbisDbgUI {
         }
 
         private void PeekToolStripButton_Click(object sender, EventArgs e) {
-            ulong address = Convert.ToUInt64(AddressToolStripTextBox.Text, 16);
+
+            // parse out non 0-9 A-F characters using Regex
+            string addr = Regex.Replace(AddressToolStripTextBox.Text, "[^0-9A-F]", "");
+            ulong address = Convert.ToUInt64(addr, 16);
             int size = Convert.ToInt32(LengthToolStripTextBox.Text, 16);
 
             this.address = address;
@@ -144,6 +149,30 @@ namespace OrbisDbgUI {
         private void MemoryForm_Resize(object sender, EventArgs e) {
             MemoryViewHexBox.Width = this.Width - 17;
             MemoryViewHexBox.Height = this.Height - 67;
+        }
+
+        private void copyAsUInt64ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MemoryViewHexBox.CopyHex();
+
+            byte[] bytes = Clipboard.GetText().Split(' ').Select(s => byte.Parse(s, System.Globalization.NumberStyles.HexNumber)).ToArray();
+            Clipboard.SetText(BitConverter.ToUInt64(bytes, 0).ToString("X2"));
+        }
+
+        private void copyAsUInt32ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MemoryViewHexBox.CopyHex();
+
+            byte[] bytes = Clipboard.GetText().Split(' ').Select(s => byte.Parse(s, System.Globalization.NumberStyles.HexNumber)).ToArray();
+            Clipboard.SetText(BitConverter.ToUInt32(bytes, 0).ToString("X2"));
+        }
+
+        private void copyAsUInt16ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MemoryViewHexBox.CopyHex();
+
+            byte[] bytes = Clipboard.GetText().Split(' ').Select(s => byte.Parse(s, System.Globalization.NumberStyles.HexNumber)).ToArray();
+            Clipboard.SetText(BitConverter.ToUInt16(bytes, 0).ToString("X2"));
         }
     }
 
