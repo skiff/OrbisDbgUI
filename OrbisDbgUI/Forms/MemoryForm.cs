@@ -3,6 +3,8 @@ using System.IO;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using Be.Windows.Forms;
+using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace OrbisDbgUI {
     public partial class MemoryForm : Form {
@@ -48,7 +50,10 @@ namespace OrbisDbgUI {
         }
 
         private void PeekToolStripButton_Click(object sender, EventArgs e) {
-            ulong address = Convert.ToUInt64(AddressToolStripTextBox.Text, 16);
+
+            // parse out non 0-9 A-F characters using Regex
+            string addr = Regex.Replace(AddressToolStripTextBox.Text, "[^0-9A-F]", "");
+            ulong address = Convert.ToUInt64(addr, 16);
             int size = Convert.ToInt32(LengthToolStripTextBox.Text, 16);
 
             this.address = address;
@@ -73,7 +78,9 @@ namespace OrbisDbgUI {
             DynamicFileByteProvider dynamicFileByteProvider = MemoryViewHexBox.ByteProvider as DynamicFileByteProvider;
             dynamicFileByteProvider.ApplyChanges();
 
-            File.WriteAllBytes(@"OrbisDbg\Memory.bin", MemoryData);
+            // Add M-D-Y H-M-S for each memory dump that way we can keep saving and not have to worry about overwriting each dump
+            DateTime nowdate = DateTime.Now;
+            File.WriteAllBytes($"OrbisDbg\\{nowdate.Month}-{nowdate.Day}-{nowdate.Year}-{nowdate.Hour}-{nowdate.Minute}-{nowdate.Second}-Memory.bin", MemoryData);
         }
 
         private void MemoryViewHexBox_Click(object sender, EventArgs e) {
@@ -131,15 +138,41 @@ namespace OrbisDbgUI {
 
         private void copySelectedToolStripMenuItem_Click(object sender, EventArgs e) {
             MemoryViewHexBox.CopyHex();
+            Clipboard.SetText(Clipboard.GetText());
         }
 
         private void MemoryViewHexBox_Copied(object sender, EventArgs e) {
             MemoryViewHexBox.CopyHex();
+            Clipboard.SetText(Clipboard.GetText());
         }
 
         private void MemoryForm_Resize(object sender, EventArgs e) {
             MemoryViewHexBox.Width = this.Width - 17;
             MemoryViewHexBox.Height = this.Height - 67;
+        }
+
+        private void copyAsUInt64ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MemoryViewHexBox.CopyHex();
+
+            byte[] bytes = Clipboard.GetText().Split(' ').Select(s => byte.Parse(s, System.Globalization.NumberStyles.HexNumber)).ToArray();
+            Clipboard.SetText(BitConverter.ToUInt64(bytes, 0).ToString("X2"));
+        }
+
+        private void copyAsUInt32ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MemoryViewHexBox.CopyHex();
+
+            byte[] bytes = Clipboard.GetText().Split(' ').Select(s => byte.Parse(s, System.Globalization.NumberStyles.HexNumber)).ToArray();
+            Clipboard.SetText(BitConverter.ToUInt32(bytes, 0).ToString("X2"));
+        }
+
+        private void copyAsUInt16ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MemoryViewHexBox.CopyHex();
+
+            byte[] bytes = Clipboard.GetText().Split(' ').Select(s => byte.Parse(s, System.Globalization.NumberStyles.HexNumber)).ToArray();
+            Clipboard.SetText(BitConverter.ToUInt16(bytes, 0).ToString("X2"));
         }
     }
 
